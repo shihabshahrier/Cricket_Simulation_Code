@@ -40,8 +40,8 @@ class MatchDay:
 
         #iterating over overs
         over = 0
+        while over < overs and up_coming_batsman < len(batting_lineup): # Tracking Overs and up_coming_batsman
 
-        while over < overs and up_coming_batsman < len(batting_lineup):
             if prev_baller is None:
                 baller = rand.choice(balling_lineup)
             else:
@@ -49,8 +49,7 @@ class MatchDay:
                 baller = rand.choice(balling_lineup[:pid] + balling_lineup[pid+1:]) # removing prev_baller since baller can't ball 2 consecutive overs
             j = 1
         
-            #for j in range(1, 7): # j -> every ball
-            while j < 7:
+            while j < 7: # j -> every ball
 
                 if prev_delivery == None:
                     delivery = rand.choice([0, 1, 2, 3, 4, 5, 6, 'WD', 'NB', 'WKT']) # WD -> wide delivery; NB -> no ball; WKT -> wicket
@@ -59,14 +58,13 @@ class MatchDay:
                     delivery = rand.choice([0, 1, 2, 3, 4, 5, 6, 'WD', 'NB'])
                     if delivery != 'NB' or delivery != 'WD':
                         prev_delivery = None
-                #print(delivery)
-                if delivery == 'WD':
+
+                if delivery == 'WD': # wide delivery
                     j -= 1
                     extra_runs += 1
                     total_runs += 1
 
-
-                elif delivery == 'NB':
+                elif delivery == 'NB': # no ball
                     j -= 1
                     extra_runs += 1
                     total_runs += 1
@@ -78,7 +76,6 @@ class MatchDay:
                     if up_coming_batsman < len(batting_lineup):
                         strike = batting_lineup[up_coming_batsman]
                         up_coming_batsman += 1
-                    
                     else:
                         return batting_team_timeline, balling_team_timeline, extra_runs, total_runs
 
@@ -87,15 +84,16 @@ class MatchDay:
                     batting_team_timeline[strike][1] += 1
                     strike, non_strike = non_strike, strike
                     total_runs += delivery
+
                 else:
                     batting_team_timeline[strike][0] += delivery
                     batting_team_timeline[strike][1] += 1
                     total_runs += delivery
                 
-                if target != 0 and total_runs >= target:
-
+                if target != 0 and total_runs >= target: # cheaking if target is achieved
                     return batting_team_timeline, balling_team_timeline, extra_runs, total_runs
-                j += 1
+
+                j += 1 # next ball
 
 
             strike, non_strike = non_strike, strike # changing strike after every over
@@ -105,18 +103,18 @@ class MatchDay:
 
         return batting_team_timeline, balling_team_timeline, extra_runs, total_runs
 
-    def result(self, team_A, team_B, overs, tname):
 
+    def result(self, team_A, team_B, overs, tname): # Showcase 1st innings and 2nd innings Timeline
         toss = self.toss()
         choice = self.choice()
-
 
         team_a_total_runs = 0
         team_b_total_runs = 0
 
         print(f"{tname[toss-1]} won the toss and elected to {['bat', 'ball'][choice]} first")
 
-        if (toss == 1 and choice == 0) or (toss == 2 and choice == 1):
+        if (toss == 1 and choice == 0) or (toss == 2 and choice == 1):  # team_A bat first
+
             team_a_batting_timeline, team_b_balling_timeline, team_a_extra_runs, team_a_total_runs = self.innings(team_A, team_B, overs)
             team_a_batting_showcase = pd.DataFrame(team_a_batting_timeline, index=['Runs', 'Balls'])
 
@@ -141,7 +139,8 @@ class MatchDay:
             print(f"{tname[0]} bowling Timeline: ")
             print(pd.DataFrame(team_a_balling_timeline, index=['Overs', 'Wickets']))
 
-        else:
+        else:     # team_B bat first
+
             team_b_batting_timeline, team_a_balling_timeline, team_b_extra_runs, team_b_total_runs = self.innings(team_B, team_A, overs)
             team_b_batting_showcase = pd.DataFrame(team_b_batting_timeline, index=['Runs', 'Balls'])
             print(f"After {overs} overs, {tname[1]} scored {team_b_total_runs}")
@@ -166,11 +165,12 @@ class MatchDay:
             print(f"{tname[1]} bowling Timeline: ")
             print(pd.DataFrame(team_b_balling_timeline, index=['Overs', 'Wickets']))
 
-
-
         print()
         print(f"# {'-'*20} {tname[0]} VS {tname[1]} {'-'*20} #")
         print()
+
+        # Final Verdict
+
         if team_a_total_runs > team_b_total_runs:
             print(f"{tname[0]} won")
         elif team_a_total_runs < team_b_total_runs:
@@ -179,7 +179,9 @@ class MatchDay:
             print(f"Match tied between {tname[0]} and {tname[1]}")
         print()
 
-if __name__ == '__main__':
+
+if __name__ == '__main__': # main function
+
     team_A = {'A1':"Bat", 'A2':"Bat", 'A3':"Bat", 'A4':"Bat", 'A5':"Bat", 'A6':"All", 'A7':"Ball", 'A8':"Ball", 'A9':"Ball", 'A10':"Ball", 'A11':"Ball"}
     team_B = {'B1':"Bat", 'B2':"Bat", 'B3':"Bat", 'B4':"Bat", 'B5':"Bat", 'B6':"All", 'B7':"Ball", 'B8':"Ball", 'B9':"Ball", 'B10':"Ball", 'B11':"Ball"}
     teams = ["Afghanistan", "Australia", "Bangladesh", "England", "India", "New Zealand", "Pakistan", "South Africa", "Sri Lanka", "West Indies", "Zimbabwe"]
