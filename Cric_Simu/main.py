@@ -181,7 +181,7 @@ class MatchDay:
 
 
 if __name__ == '__main__': # main function
-
+    
     team_A = {'A1':"Bat", 'A2':"Bat", 'A3':"Bat", 'A4':"Bat", 'A5':"Bat", 'A6':"All", 'A7':"Ball", 'A8':"Ball", 'A9':"Ball", 'A10':"Ball", 'A11':"Ball"}
     team_B = {'B1':"Bat", 'B2':"Bat", 'B3':"Bat", 'B4':"Bat", 'B5':"Bat", 'B6':"All", 'B7':"Ball", 'B8':"Ball", 'B9':"Ball", 'B10':"Ball", 'B11':"Ball"}
     teams = ["Afghanistan", "Australia", "Bangladesh", "England", "India", "New Zealand", "Pakistan", "South Africa", "Sri Lanka", "West Indies", "Zimbabwe"]
@@ -189,8 +189,8 @@ if __name__ == '__main__': # main function
     fst_team = rand.choice(teams)
     snd_team = rand.choice(teams[:teams.index(fst_team)]+teams[teams.index(fst_team)+1:])
     overs = 5
-    match = MatchDay()#team_A, team_B, overs)
-    match.result(team_A, team_B, overs, [fst_team, snd_team])
+    match = MatchDay() # object creation
+    match.result(team_A, team_B, overs, [fst_team, snd_team]) # calling result method
 
 
                     
